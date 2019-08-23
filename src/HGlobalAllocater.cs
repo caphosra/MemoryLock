@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CapraLib.MemoryAllocater
+namespace CapraLib.MemoryLock
 {
     public class HGlobalAllocater<T> : IDisposable, IMemoryAllocater<T> where T : unmanaged
     {

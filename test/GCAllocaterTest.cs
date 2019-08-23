@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 using Xunit;
 
-namespace CapraLib.MemoryAllocater.Test
+namespace CapraLib.MemoryLock.Test
 {
     public class GCAllocaterTest
     {
