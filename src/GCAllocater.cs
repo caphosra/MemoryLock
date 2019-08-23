@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace CapraLib.MemoryAllocater
 {
-    public class ObjectPinner<T> : IDisposable, IMemoryAllocater<T> where T : unmanaged
+    public class GCAllocater<T> : IDisposable, IMemoryAllocater<T> where T : unmanaged
     {
         private GCHandle _handle;
 
-        public ObjectPinner(out IntPtr unmanaged, in T managed)
+        public GCAllocater(out IntPtr unmanaged, in T managed)
         {
             _handle = GCHandle.Alloc(managed, GCHandleType.Pinned);
             unmanaged = _handle.AddrOfPinnedObject();

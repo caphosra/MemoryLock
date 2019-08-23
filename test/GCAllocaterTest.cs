@@ -6,14 +6,14 @@ using Xunit;
 
 namespace CapraLib.MemoryAllocater.Test
 {
-    public class ObjectPinnerTest
+    public class GCAllocaterTest
     {
         #region Allocate Tests
 
         [Fact]
         public void AllocateInt()
         {
-            using(var allocated = new ObjectPinner<int>(out IntPtr unmanaged, 100))
+            using(var allocated = new GCAllocater<int>(out IntPtr unmanaged, 100))
             {
                 
             }
@@ -22,7 +22,7 @@ namespace CapraLib.MemoryAllocater.Test
         [Fact]
         public void AllocateDouble()
         {
-            using(var allocated = new ObjectPinner<double>(out IntPtr unmanaged, MathF.PI))
+            using(var allocated = new GCAllocater<double>(out IntPtr unmanaged, MathF.PI))
             {
                 
             }
@@ -31,7 +31,7 @@ namespace CapraLib.MemoryAllocater.Test
         [Fact]
         public void AllocateStruct()
         {
-            using(var allocated = new ObjectPinner<SampleStrcut>(out IntPtr unmanaged, new SampleStrcut()))
+            using(var allocated = new GCAllocater<SampleStrcut>(out IntPtr unmanaged, new SampleStrcut()))
             {
                 
             }
@@ -49,7 +49,7 @@ namespace CapraLib.MemoryAllocater.Test
         {
             int value = 100;
 
-            using(var allocated = new ObjectPinner<int>(out IntPtr unmanaged, value))
+            using(var allocated = new GCAllocater<int>(out IntPtr unmanaged, value))
             {
                 Marshal.WriteInt32(unmanaged, changeTo);
 
@@ -76,7 +76,7 @@ namespace CapraLib.MemoryAllocater.Test
         {
             var sample = new SampleStrcut();
 
-            using(var allocated = new ObjectPinner<SampleStrcut>(out IntPtr unmanaged, sample))
+            using(var allocated = new GCAllocater<SampleStrcut>(out IntPtr unmanaged, sample))
             {
                 Marshal.StructureToPtr(changeTo, unmanaged, fDeleteOld: false);
 
