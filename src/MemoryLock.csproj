@@ -5,4 +5,20 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <!-- Package info -->
+  <PropertyGroup>
+    <PackageId>MemoryLock</PackageId>
+    <Title>MemoryLock</Title>
+    <PackageDescription>Allocate memories in C# by using "using" statement.</PackageDescription>
+    <Version>1.0.0-beta</Version>
+    <Authors>capra314cabra</Authors>
+    <Company>capra314cabra</Company>
+    <Copyright>(c) 2019 capra314cabra</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/capra314cabra/MemoryLock</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/capra314cabra/MemoryLock.git</RepositoryUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/capra314cabra/MemoryLock/master/image/icon_64.png</PackageIconUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
 </Project>

@@ -1,0 +1,82 @@
+trigger:
+- master
+- refs/tags/v*
+variables:
+  dotnetCoreVersion: "2.2.401"
+  projectDir: "./src/"
+  testProjectDir: "./test/"
+
+jobs:
+- job: Test
+  displayName: "xUnit Test"
+  strategy:
+    matrix:
+      Windows:
+        runningOS: "windows-latest"
+      Ubuntu:
+        runningOS: "ubuntu-latest"
+      Mac:
+        runningOS: macOS-latest
+  pool:
+    vmImage: $(runningOS)
+  steps:
+  - task: DotNetCoreInstaller@1
+    displayName: "Install .NET Core"
+    inputs:
+      version: $(dotnetCoreVersion)
+  - script: dotnet test --logger trx
+    displayName: "Run xUnit test"
+    workingDirectory: $(testProjectDir)
+  - task: PublishTestResults@1
+    displayName: "Publish test results"
+    inputs:
+      testResultsFiles: "**/*.trx"
+    condition: always()
+- job: Build_Library
+  displayName: "Build DLL"
+  pool:
+    vmImage: "ubuntu-latest"
+  steps:
+  - task: DotNetCoreInstaller@1
+    displayName: "Install .NET Core"
+    inputs:
+      version: $(dotnetCoreVersion)
+  - script: dotnet publish -c Release
+    displayName: "Run .NET Core publish"
+    workingDirectory: $(projectDir)
+  - task: CopyFiles@2
+    displayName: "Copy artifacts"
+    inputs:
+      CleanTargetFolder: True
+      Contents: "src/bin/Release/netcoreapp2.1/publish/*"
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish build artifacts"
+    inputs:
+      ArtifactName: "LibraryBuildOutput"
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+- job: Build_Nuget
+  displayName: "Build Nuget"
+  pool:
+    vmImage: "ubuntu-latest"
+  steps:
+  - task: DotNetCoreInstaller@1
+    displayName: "Install .NET Core"
+    inputs:
+      version: $(dotnetCoreVersion)
+  - script: dotnet pack -c Release
+    displayName: "Create Nuget package"
+    workingDirectory: $(projectDir)
+  - task: CopyFiles@2
+    displayName: "Copy artifacts"
+    inputs:
+      CleanTargetFolder: True
+      Contents: "**/*.nupkg"
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish build artifacts"
+    inputs:
+      ArtifactName: "PackageBuildOutput"
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+
+      
