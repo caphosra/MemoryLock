@@ -1,5 +1,12 @@
 # Memory Lock
 
+[![nuget](https://img.shields.io/nuget/v/MemoryLock)](https://www.nuget.org/packages/MemoryLock/)
+[![license](https://img.shields.io/github/license/capra314cabra/MemoryLock)](https://github.com/capra314cabra/MemoryLock/blob/master/LICENSE)
+
+<p align="center">
+  <img src="image/icon_256.png"/>
+</p>
+
 Allocate memories in C# by using "using" statement.
 
 ## What is this ?
