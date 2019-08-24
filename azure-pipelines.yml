@@ -30,9 +30,9 @@ jobs:
   - task: PublishTestResults@2
     displayName: "Publish test results"
     inputs:
-      testResultsFormat: "xUnit"
+      testResultsFormat: "VSTest"
       testResultsFiles: "**/*.trx"
-    condition: always()
+    condition: succeededOrFailed()
 - job: Build_Library
   displayName: "Build DLL"
   pool:
