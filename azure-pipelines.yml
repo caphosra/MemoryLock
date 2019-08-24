@@ -27,9 +27,10 @@ jobs:
   - script: dotnet test --logger trx
     displayName: "Run xUnit test"
     workingDirectory: $(testProjectDir)
-  - task: PublishTestResults@1
+  - task: PublishTestResults@2
     displayName: "Publish test results"
     inputs:
+      testResultsFormat: "xUnit"
       testResultsFiles: "**/*.trx"
     condition: always()
 - job: Build_Library
@@ -48,6 +49,7 @@ jobs:
     displayName: "Copy artifacts"
     inputs:
       CleanTargetFolder: True
+      flattenFolders: True
       Contents: "src/bin/Release/netcoreapp2.1/publish/*"
       TargetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
@@ -71,6 +73,7 @@ jobs:
     displayName: "Copy artifacts"
     inputs:
       CleanTargetFolder: True
+      flattenFolders: True
       Contents: "**/*.nupkg"
       TargetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
