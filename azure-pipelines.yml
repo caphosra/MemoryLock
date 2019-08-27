@@ -59,6 +59,7 @@ jobs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
 - job: Pack
   displayName: "Pack"
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   pool:
     vmImage: "ubuntu-latest"
   steps:
