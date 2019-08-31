@@ -3,6 +3,7 @@
 [![Build Status](https://dev.azure.com/capra314cabra/MemoryLock/_apis/build/status/capra314cabra.MemoryLock?branchName=master)](https://dev.azure.com/capra314cabra/MemoryLock/_build/latest?definitionId=5&branchName=master)
 [![nuget](https://img.shields.io/nuget/v/MemoryLock)](https://www.nuget.org/packages/MemoryLock/)
 [![license](https://img.shields.io/github/license/capra314cabra/MemoryLock)](https://github.com/capra314cabra/MemoryLock/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/capra314cabra/MemoryLock?style=social)](https://github.com/capra314cabra/MemoryLock)
 
 <p align="center">
   <img src="image/icon_256.png"/>
