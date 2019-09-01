@@ -36,21 +36,16 @@ jobs:
       testResultsFormat: "VSTest"
       testResultsFiles: "**/*.trx"
     condition: succeededOrFailed()
-  - script: dotnet test 
-    displayName: "Calculate code coverage"
-    workingDirectory: $(testProjectDir)
-  - task: DotNetCoreCLI@1
+  - script: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./CodeCoverage/ /p:CoverletOutputFormat=cobertura
     displayName: "Calculate code coverage"
     condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
-    inputs:
-      command: "test"
-      arguments: "/p:CollectCoverage=true /p:CoverletOutput=./CodeCoverage/ /p:CoverletOutputFormat=cobertura"
+    workingDirectory: $(testProjectDir)
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage"
     condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
     inputs:
       codeCoverageTool: "cobertura"
-      summaryFileLocation: "$(testProjectDir)/CodeCoverage/coverage.cobertura.xml"
+      summaryFileLocation: "$(testProjectDir)/CodeCoverage/*.xml"
 - job: Build
   displayName: "Build"
   pool:
