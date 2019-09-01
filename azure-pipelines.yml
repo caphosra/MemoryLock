@@ -41,13 +41,13 @@ jobs:
     workingDirectory: $(testProjectDir)
   - task: DotNetCoreCLI@1
     displayName: "Calculate code coverage"
-    condition: $(codeCoverage)
+    condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
     inputs:
       command: "test"
       arguments: "/p:CollectCoverage=true /p:CoverletOutput=./CodeCoverage/ /p:CoverletOutputFormat=cobertura"
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage"
-    condition: $(codeCoverage)
+    condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
     inputs:
       codeCoverageTool: "cobertura"
       summaryFileLocation: "$(testProjectDir)/CodeCoverage/coverage.cobertura.xml"
