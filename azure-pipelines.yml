@@ -13,10 +13,13 @@ jobs:
     matrix:
       Windows:
         runningOS: "windows-latest"
+        codeCoverage: False
       Ubuntu:
         runningOS: "ubuntu-latest"
+        codeCoverage: True
       Mac:
         runningOS: macOS-latest
+        codeCoverage: False
   pool:
     vmImage: $(runningOS)
   steps:
@@ -33,6 +36,21 @@ jobs:
       testResultsFormat: "VSTest"
       testResultsFiles: "**/*.trx"
     condition: succeededOrFailed()
+  - script: dotnet test 
+    displayName: "Calculate code coverage"
+    workingDirectory: $(testProjectDir)
+  - task: DotNetCoreCLI@1
+    displayName: "Calculate code coverage"
+    condition: $(codeCoverage)
+    inputs:
+      command: "test"
+      arguments: "/p:CollectCoverage=true /p:CoverletOutput=./CodeCoverage/ /p:CoverletOutputFormat=cobertura"
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage"
+    condition: $(codeCoverage)
+    inputs:
+      codeCoverageTool: "cobertura"
+      summaryFileLocation: "$(testProjectDir)/CodeCoverage/coverage.cobertura.xml"
 - job: Build
   displayName: "Build"
   pool:
