@@ -36,7 +36,7 @@ jobs:
       testResultsFormat: "VSTest"
       testResultsFiles: "**/*.trx"
     condition: succeededOrFailed()
-  - script: dotnet test /p:CollectCoverage=true /p:CoverletOutput=./CodeCoverage/ /p:CoverletOutputFormat=cobertura
+  - script: dotnet test /p:CollectCoverage=true /p:CoverletOutput=$(Build.SourcesDirectory)/CodeCoverage/ /p:CoverletOutputFormat=cobertura
     displayName: "Calculate code coverage"
     condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
     workingDirectory: $(testProjectDir)
@@ -45,7 +45,7 @@ jobs:
     condition: and(succeeded(), eq(variables['codeCoverage'], 'true'))
     inputs:
       codeCoverageTool: "cobertura"
-      summaryFileLocation: "$(testProjectDir)/CodeCoverage/*.xml"
+      summaryFileLocation: $(Build.SourcesDirectory)/CodeCoverage/coverage.cobertura.xml
 - job: Build
   displayName: "Build"
   pool:
