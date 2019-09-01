@@ -44,9 +44,9 @@ namespace CapraLib.MemoryLock.Test.Samples
         public static unsafe void Turn180Unsafe(IntPtr ptr)
         {
             LineData* native_ptr = (LineData*)ptr;
-            float* dx_ptr = (float*)((native_ptr + sizeof(float) * 3));
-            float* dy_ptr = dx_ptr + sizeof(float);
-            float* dz_ptr = dy_ptr + sizeof(float);
+            float* dx_ptr = (float*)(native_ptr) + 3;
+            float* dy_ptr = dx_ptr + 1;
+            float* dz_ptr = dy_ptr + 1;
             *dx_ptr = - *dx_ptr;
             *dy_ptr = - *dy_ptr;
             *dz_ptr = - *dz_ptr;
