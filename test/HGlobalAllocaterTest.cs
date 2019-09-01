@@ -3,100 +3,48 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Xunit;
+using CapraLib.MemoryLock.Test.Samples;
 
 namespace CapraLib.MemoryLock.Test
 {
     public class HGlobalAllocaterTest
     {
-        #region Allocate Tests
-
-        [Fact]
-        public void AllocateInt()
-        {
-            using(var allocated = new HGlobalAllocater<int>(out IntPtr unmanaged, 100))
-            {
-                
-            }
-        }
-
-        [Fact]
-        public void AllocateDouble()
-        {
-            using(var allocated = new HGlobalAllocater<double>(out IntPtr unmanaged, MathF.PI))
-            {
-                
-            }
-        }
-
-        [Fact]
-        public void AllocateStruct()
-        {
-            using(var allocated = new HGlobalAllocater<SampleStrcut>(out IntPtr unmanaged, new SampleStrcut()))
-            {
-                
-            }
-        }
-
-        #endregion
-    
-        #region Control Tests
-
         [Theory]
-        [InlineData(100)]
-        [InlineData(int.MaxValue)]
-        [InlineData(int.MinValue)]
-        public void AllocateAndChangeInt(int changeTo)
+        [ClassData(typeof(Int32Samples))]
+        public void AllocateAndChangeInt(int sample)
         {
-            int value = 100;
+            int answer = sample;
+            Int32Calc.SquareManaged(ref answer);
 
-            using(var allocated = new HGlobalAllocater<int>(out IntPtr unmanaged, value))
+            int result = sample;
+
+            using(var allocated = new HGlobalAllocater<int>(out IntPtr unmanaged, result))
             {
-                Marshal.WriteInt32(unmanaged, changeTo);
+                Int32Calc.SquareUnsafe(unmanaged);
 
-                allocated.SetResult(out value);
+                allocated.SetResult(out result);
             }
 
-            Assert.Equal(changeTo, value);
-        }
-
-        public static IEnumerable<object[]> SampleStructGenerator()
-        {
-            yield return new object[] { new SampleStrcut() };
-            yield return new object[] { new SampleStrcut() { x = 10f, y = 15f, z = 9f } };
-            yield return new object[] { new SampleStrcut() 
-            {
-                x = MathF.E, y = MathF.E, z = MathF.E,
-                dx = MathF.PI, dy = MathF.PI, dz = MathF.PI
-            }};
+            Assert.Equal(answer, result);
         }
 
         [Theory]
-        [MemberData(nameof(SampleStructGenerator))]
-        public void AllocateAndChangeStruct(SampleStrcut changeTo)
+        [ClassData(typeof(LineDataSamples))]
+        public void AllocateAndChangeStruct(LineData sample)
         {
-            var sample = new SampleStrcut();
+            var answer = sample;
+            LineDataCalc.Turn180Managed(ref answer);
 
-            using(var allocated = new HGlobalAllocater<SampleStrcut>(out IntPtr unmanaged, sample))
+            var result = sample;
+
+            using(var allocated = new HGlobalAllocater<LineData>(out IntPtr unmanaged, result))
             {
-                Marshal.StructureToPtr(changeTo, unmanaged, fDeleteOld: false);
+                LineDataCalc.Turn180Unsafe(unmanaged);
 
-                allocated.SetResult(out sample);
+                allocated.SetResult(out result);
             }
 
-            Assert.Equal(changeTo, sample);
-        } 
-
-        #endregion
-    
-        [StructLayout(LayoutKind.Sequential)]
-        public struct SampleStrcut
-        {
-            public float x;
-            public float y;
-            public float z;
-            public float dx;
-            public float dy;
-            public float dz;
+            Assert.Equal(answer, result);
         }
     }
 }
