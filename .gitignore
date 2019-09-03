@@ -1,4 +1,10 @@
 #
+# Editor item
+#
+.vs/
+.vscode/
+
+#
 # Build item
 #
 **/bin
