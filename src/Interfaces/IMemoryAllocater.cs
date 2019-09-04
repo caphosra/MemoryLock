@@ -2,13 +2,13 @@ using System;
 
 namespace CapraLib.MemoryLock
 {
-    public interface IMemoryAllocater<T> where T : unmanaged
+    public interface IMemoryAllocater<T> : IMemoryAllocater where T : unmanaged
     {
-        void SetResult(out T managed);
+        void CopyTo(out T managed);
     }
 
-    public interface IMemoryAllocater
+    public interface IMemoryAllocater : IDisposable
     {
-        void SetResult(out Span<byte> bytes);
+        void CopyTo(out Span<byte> bytes);
     }
 }
