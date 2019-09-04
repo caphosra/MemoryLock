@@ -62,7 +62,7 @@ With Memory Lock, you can write the following code :
 // using CapraLib.MemoryLock;
 
 // Allocate memories
-using(var allocated = new CoTaskMemAllocater(out var pointer, size))
+using(var allocated = new MemoryAllocater(out var pointer, size))
 {
     // Do something
 }
@@ -79,9 +79,7 @@ In C# 8, you can use this with ["using declarations"](https://docs.microsoft.com
 ### Allocate 100 bytes
 
 ``` C#
-using(var allocated = new CoTaskMemAllocater(out var pointer, 100))
-// OR
-using(var allocated = new HGlobalAllocater(out var pointer, 100))
+using(var allocated = new MemoryAllocater(out var pointer, 100))
 {
     // Do something with "pointer" !
 }
@@ -89,14 +87,13 @@ using(var allocated = new HGlobalAllocater(out var pointer, 100))
 
 The following table will help you.
 
-| Allocate memory by ... | Size | Object(Non type) | Unmanaged object |
+| Allocate memory by ... | Size | Unmanaged object |
 |---|:---:|:---:|:---:|
 | CoTaskMemAllocater | :heavy_check_mark: |
 | HGlobalAllocater | :heavy_check_mark: |
-| GCAllocater || :heavy_check_mark: |
-| CoTaskMemAllocater&lt;T&gt; ||| :heavy_check_mark: |
-| HGlobalAllocater&lt;T&gt; ||| :heavy_check_mark: |
-| GCAllocater&lt;T&gt; ||| :heavy_check_mark: |
+| CoTaskMemAllocater&lt;T&gt; || :heavy_check_mark: |
+| HGlobalAllocater&lt;T&gt; || :heavy_check_mark: |
+| GCAllocater&lt;T&gt; || :heavy_check_mark: |
 
 Unmanaged object includes : 
 - `sbyte`, `byte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `char`, `float`, `double`, `decimal`, `bool`
@@ -134,21 +131,22 @@ On that time, you can write the following code :
 var vec = new Vector();
 vec.x = 10f;
 
-using(var allocated = new CoTaskMemAllocater<Vector>(out var pointer, vec))
+using(var allocated = new MemoryAllocater<Vector>(out var pointer, vec))
 {
     // Assign another values to the pointer
     ChangeAll(pointer, 15f, 19f, 23f);
 
     // Copy from unmanaged memory to managed.
-    allocated.SetResult(out vec);
+    allocated.CopyTo(out vec);
 }
 
 Console.WriteLine($"vec.x = {vec.x}"); // vec.x = 15
 ```
 
-Before releasing the memory, you can call `void SetResults(out T vec)` to save changes to managed items.  
+Before releasing the memory, you can call `void CopyTo(out T obj)` to save changes to managed items.  
 This function is implemented in
 
+- `MemoryAllocater<T>`
 - `CoTaskMemAllocater<T>`
 - `HGlobalAllocater<T>`
 - `GCAllocater<T>`
