@@ -3,25 +3,18 @@ using System.Runtime.InteropServices;
 
 namespace CapraLib.MemoryLock
 {
-    public class CoTaskMemAllocater<T> : IDisposable, IMemoryAllocater<T> where T : unmanaged
+    /// <summary>
+    /// 
+    /// Assign a memory and copy the managed object to there.
+    /// 
+    /// </summary>
+    public class CoTaskMemAllocater<T> : MemoryAllocater<T> where T : unmanaged
     {
-        private IntPtr _allocated;
-
-        public CoTaskMemAllocater(out IntPtr unmanaged, in T managed)
-        {
-            _allocated = unmanaged = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(T)));
-            
-            Marshal.StructureToPtr(managed, _allocated, fDeleteOld: false);
-        }
-        
-        public void SetResult(out T managed)
-        {
-            managed = Marshal.PtrToStructure<T>(_allocated);
-        }
-
-        public void Dispose()
-        {
-            Marshal.FreeCoTaskMem(_allocated);
-        }
+        /// <summary>
+        /// 
+        /// The constructor of CoTaskMemAllocater
+        /// 
+        /// </summary>
+        public CoTaskMemAllocater(out IntPtr unmanaged, in T managed) : base(out unmanaged, managed) { }
     }
 }
