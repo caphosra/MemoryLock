@@ -3,25 +3,52 @@ using System.Runtime.InteropServices;
 
 namespace CapraLib.MemoryLock
 {
-    public class HGlobalAllocater<T> : IDisposable, IMemoryAllocater<T> where T : unmanaged
+    /// <summary>
+    /// 
+    /// Assign a memory on heap and copy the managed object to there.
+    /// 
+    /// </summary>
+    public class HGlobalAllocater<T> : MemoryAllocater<T> where T : unmanaged
     {
-        private IntPtr _allocated;
+        /// <summary>
+        /// 
+        /// The constructor of HGlobalAllocater
+        /// 
+        /// </summary>
+        public HGlobalAllocater(out IntPtr unmanaged, in T managed) : base(out unmanaged, managed) { }
 
-        public HGlobalAllocater(out IntPtr unmanaged, in T managed)
+        /// <summary>
+        /// 
+        /// Allocate a memory and copy the managed object to unmanaged space.
+        /// This function only can be called internally. 
+        ///  
+        /// </summary>
+        protected override void AllocateMemory(out IntPtr unmanaged, in T managed)
         {
-            _allocated = unmanaged = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(T)));
-
-            Marshal.StructureToPtr(managed, _allocated, fDeleteOld: false);
+            //
+            // Allocate a memory.
+            //
+            unmanaged = Marshal.AllocHGlobal(ObjectSize);
+            Pointer = unmanaged;
+            
+            //
+            // Copy the managed object to unmanaged space.
+            //
+            Marshal.StructureToPtr(managed, unmanaged, fDeleteOld: false);
         }
 
-        public void SetResult(out T managed)
+        /// <summary>
+        /// 
+        /// Free the memory which is allocated by this.
+        /// This function only can be called internally. 
+        ///  
+        /// </summary>
+        protected override void FreeMemory(in IntPtr unmanaged)
         {
-            managed = Marshal.PtrToStructure<T>(_allocated);
-        }
-
-        public void Dispose()
-        {
-            Marshal.FreeHGlobal(_allocated);
+            //
+            // Release the memory.
+            //
+            Marshal.FreeHGlobal(unmanaged);
         }
     }
 }

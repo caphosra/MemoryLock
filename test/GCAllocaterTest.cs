@@ -22,7 +22,7 @@ namespace CapraLib.MemoryLock.Test
             {
                 Int32Calc.SquareUnsafe(unmanaged);
 
-                allocated.SetResult(out result);
+                allocated.CopyTo(out result);
             }
 
             Assert.Equal(answer, result);
@@ -41,7 +41,7 @@ namespace CapraLib.MemoryLock.Test
             {
                 LineDataCalc.Turn180Unsafe(unmanaged);
 
-                allocated.SetResult(out result);
+                allocated.CopyTo(out result);
             }
 
             Assert.Equal(answer, result);
