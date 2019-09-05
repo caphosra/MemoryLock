@@ -88,7 +88,7 @@ using(var allocated = new MemoryAllocater(out var pointer, 100))
 The following table will help you.
 
 | Allocate memory by ... | Size | Unmanaged object |
-|---|:---:|:---:|:---:|
+|---|:---:|:---:|
 | CoTaskMemAllocater | :heavy_check_mark: |
 | HGlobalAllocater | :heavy_check_mark: |
 | CoTaskMemAllocater&lt;T&gt; || :heavy_check_mark: |
