@@ -23,9 +23,9 @@ namespace CapraLib.MemoryLock.Test
         [Fact]
         public unsafe void AllocateAndCopyWithSpan()
         {
-            int sample = 100;
+            const int size = 100;
 
-            using(var allocated = new MemoryAllocater<int>(out IntPtr unmanaged, sample))
+            using(var allocated = new MemoryAllocater(out IntPtr unmanaged, size))
             {
                 allocated.CopyTo(out Span<byte> span);
             }
