@@ -19,5 +19,16 @@ namespace CapraLib.MemoryLock.Test
                 ByteArrayCalc.FillOneUnsafe(unmanaged, size);
             }
         }
+
+        [Fact]
+        public unsafe void AllocateAndCopyWithSpan()
+        {
+            const int size = 100;
+
+            using(var allocated = new MemoryAllocater(out IntPtr unmanaged, size))
+            {
+                allocated.CopyTo(out Span<byte> span);
+            }
+        }
     }
 }
