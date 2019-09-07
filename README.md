@@ -19,7 +19,7 @@ This is a wrapper library for :
 - `System.Runtime.InteropServices.Marshal.AllocCoTaskMem`
 - `System.Runtime.InteropServices.Marshal.FreeCoTaskMem`
 - `System.Runtime.InteropServices.Marshal.AllocHGlobal`
-- `System.Runtime.InteropServices.Marshal.Marshal.FreeHGlobal`
+- `System.Runtime.InteropServices.Marshal.FreeHGlobal`
 - `System.Runtime.InteropServices.GCHandle.Alloc`
 - `System.Runtime.InteropServices.GCHandle.Free`
 
