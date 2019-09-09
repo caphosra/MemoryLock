@@ -54,7 +54,7 @@ namespace CapraLib.MemoryLock.Test
 
             using(var allocated = new MemoryAllocater<int>(out IntPtr unmanaged, sample))
             {
-                allocated.CopyTo(out Span<byte> span);
+                allocated.CopyTo(out byte[] span);
             }
         }
     }

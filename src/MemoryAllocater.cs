@@ -61,16 +61,10 @@ namespace CapraLib.MemoryLock
         /// Update the managed object by using unmanaged byte code.
         /// 
         /// </summary>
-        public void CopyTo(out Span<byte> managed)
+        public void CopyTo(out byte[] managed)
         {
-#if !WITHOUT_UNSAFE
-            unsafe
-            {
-                managed = new Span<byte>(Pointer.ToPointer(), ObjectSize);
-            }
-#else
-            throw new NotSupportedException("You can't call CopyTo(out Span<byte>) without allowing unsafe code.");
-#endif
+            managed = new byte[ObjectSize];
+            Marshal.Copy(Pointer, managed, 0, ObjectSize);
         }
 
         /// <summary>

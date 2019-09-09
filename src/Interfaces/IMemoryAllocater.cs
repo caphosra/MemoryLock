@@ -9,6 +9,6 @@ namespace CapraLib.MemoryLock
 
     public interface IMemoryAllocater : IDisposable
     {
-        void CopyTo(out Span<byte> bytes);
+        void CopyTo(out byte[] bytes);
     }
 }
