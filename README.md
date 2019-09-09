@@ -10,7 +10,8 @@
   <img src="image/icon_256.png"/>
 </p>
 
-With this library, you can pin the managed object or allocate the memory easily. And you never forget releasing them.
+With this library, you can pin the managed object or allocate the memory easily.   
+And you __never__ forget releasing them.
 
 ## What is this ?
 
