@@ -9,7 +9,7 @@
   <PropertyGroup>
     <PackageId>MemoryLock</PackageId>
     <Title>MemoryLock</Title>
-    <PackageDescription>Allocate memories in C# by using "using" statement.</PackageDescription>
+    <PackageDescription>With this library, you can pin the managed object or allocate the memory easily. And you never forget releasing them.</PackageDescription>
     <Authors>capra314cabra</Authors>
     <Company>capra314cabra</Company>
     <Copyright>(c) 2019 capra314cabra</Copyright>

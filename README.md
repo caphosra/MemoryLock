@@ -10,7 +10,7 @@
   <img src="image/icon_256.png"/>
 </p>
 
-Allocate memories in C# by using "using" statement.
+With this library, you can pin the managed object or allocate the memory easily. And you never forget releasing them.
 
 ## What is this ?
 
