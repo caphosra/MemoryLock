@@ -152,6 +152,26 @@ This function is implemented in
 - `HGlobalAllocater<T>`
 - `GCAllocater<T>`
 
+### Do so without CopyTo()
+
+You can forget writing CopyTo().  
+If you want to save changes automatically, I recommend you to use `MemoryLock.AsNative<T>(ref T, MemoryAllocationHandle)`.
+
+This is a example for `MemoryLock.AsNative<T>` :
+
+``` C#
+
+var result = new Vector();
+
+MemoryLock.AsNative(ref result, (ptr) => 
+{
+    // Do something with pointer !
+});
+
+// "result" is now reflected the changes.
+
+```
+
 ## Author
 
 [capra314cabra](https://github.com/capra314cabra)
